@@ -1,6 +1,6 @@
 const main = async () => {
   const domainContractFactory = await hre.ethers.getContractFactory("PolygonDomains");
-  const domainContract = await domainContractFactory.deploy("ninja");
+  const domainContract = await domainContractFactory.deploy("plg");
   await domainContract.deployed();
 
   console.log("Contract deployed to:", domainContract.address);
@@ -9,11 +9,11 @@ const main = async () => {
     value: hre.ethers.utils.parseEther("0.1"),
   });
   await txn.wait();
-  console.log("Minted domain banana.ninja");
+  console.log("Minted domain banana.plg");
 
   txn = await domainContract.setRecord("banana", "Am I a banana or a ninja??");
   await txn.wait();
-  console.log("Set record for banana.ninja");
+  console.log("Set record for banana.plg");
 
   const address = await domainContract.getAddress("banana");
   console.log("Owner of domain banana:", address);

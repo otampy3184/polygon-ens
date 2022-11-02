@@ -9,7 +9,7 @@ module.exports = {
       url: process.env.API_KEY,
       accounts: [process.env.SECRET_KEY],
     },
-    matic: {
+    mumbai: {
       url: process.env.API_KEY_MUM,
       accounts: [`0x${process.env.SECRET_KEY}`],
     },
