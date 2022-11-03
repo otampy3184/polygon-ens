@@ -118,28 +118,17 @@ function App() {
           />
           <p className="tld"> {tld} </p>
         </div>
-
+  
         <input
           type="text"
           value={record}
-          placeholder="record here"
+          placeholder="whats ur ninja power?"
           onChange={(e) => setRecord(e.target.value)}
         />
-
+  
         <div className="button-container">
-          <button
-            className="cta-button mint-button"
-            disabled={null}
-            onClick={null}
-          >
+          <button className="cta-button mint-button" onClick={mintDomain}>
             Mint
-          </button>
-          <button
-            className="cta-button mint-button"
-            disabled={null}
-            onClick={null}
-          >
-            Set data
           </button>
         </div>
       </div>
