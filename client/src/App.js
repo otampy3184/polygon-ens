@@ -30,6 +30,21 @@ function App() {
     }
   }
 
+  const renderNotConnectedContainer = () => (
+    <div className="connect-wallet-container">
+      <img
+        src="https://media.giphy.com/media/3ohhwytHcusSCXXOUg/giphy.gif"
+        alt="Ninja gif"
+      />
+      <button
+        onClick={connectWallet}
+        className="cta-button connect-wallet-button"
+      >
+        Connect Wallet
+      </button>
+    </div>
+  );
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
@@ -51,9 +66,22 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <button className='button' onClick={connectWallet}>connect wallet</button>
-      </div>    
+      <div className="container">
+
+        <div className="header-container">
+          <header>
+            <div className="left">
+              <p className="title">Polygon Name Service</p>
+              <p className="subtitle">Your immortal API on the blockchain!</p>
+            </div>
+          </header>
+        </div>
+
+        {renderNotConnectedContainer()}
+
+        <div className="footer-container">
+        </div>
+      </div>
     </div>
   );
 }
