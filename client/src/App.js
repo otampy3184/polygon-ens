@@ -4,8 +4,13 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import abi from "./utils/PolygonDomains.json";
 
+const tld = ".plg";
+const CONTRACT_ADDRESS = "0x576Ab2Cb1b5E5DF3dcdA2A31B7C1fe30830f183b";
+
 function App() {
   const [currentAccount, setCurrentAccount] = useState("");
+  const [domain, setDomain] = useState("");
+  const [record, setRecord] = useState("");
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -45,6 +50,46 @@ function App() {
     </div>
   );
 
+  const renderInputForm = () => {
+    return (
+      <div className="form-container">
+        <div className="first-row">
+          <input
+            type="text"
+            value={domain}
+            placeholder="domain"
+            onChange={(e) => setDomain(e.target.value)}
+          />
+          <p className="tld"> {tld} </p>
+        </div>
+
+        <input
+          type="text"
+          value={record}
+          placeholder="record here"
+          onChange={(e) => setRecord(e.target.value)}
+        />
+
+        <div className="button-container">
+          <button
+            className="cta-button mint-button"
+            disabled={null}
+            onClick={null}
+          >
+            Mint
+          </button>
+          <button
+            className="cta-button mint-button"
+            disabled={null}
+            onClick={null}
+          >
+            Set data
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
@@ -77,7 +122,8 @@ function App() {
           </header>
         </div>
 
-        {renderNotConnectedContainer()}
+        {!currentAccount && renderNotConnectedContainer()}
+        {currentAccount && renderInputForm()}
 
         <div className="footer-container">
         </div>
