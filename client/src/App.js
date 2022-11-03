@@ -2,7 +2,7 @@ import './App.css';
 
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import abi from "./utils/PolygonDomains.json";
+import contractAbi from "./utils/PolygonDomains.json";
 
 const tld = ".plg";
 const CONTRACT_ADDRESS = "0x576Ab2Cb1b5E5DF3dcdA2A31B7C1fe30830f183b";
@@ -118,14 +118,14 @@ function App() {
           />
           <p className="tld"> {tld} </p>
         </div>
-  
+
         <input
           type="text"
           value={record}
           placeholder="whats ur ninja power?"
           onChange={(e) => setRecord(e.target.value)}
         />
-  
+
         <div className="button-container">
           <button className="cta-button mint-button" onClick={mintDomain}>
             Mint
