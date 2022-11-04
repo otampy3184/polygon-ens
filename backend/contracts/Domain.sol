@@ -34,6 +34,22 @@ contract PolygonDomains is ERC721URIStorage {
         console.log("Construct Success");
     }
 
+    modifier onlyOwner() {
+        require(isOwner());
+        _;
+    }
+
+    function isOwner() public view returns (bool) {
+        return msg.sender == owner;
+    }
+
+    function withdraw() public onlyOwner {
+        uint256 amount = address(this).balance;
+
+        (bool success, ) = msg.sender.call{value: amount}("");
+        require(success, "Failed to withdraw Matic");
+    }
+
     // ドメイン長によって支払い額を変える
     function price(string calldata name) public pure returns (uint256) {
         uint256 len = StringUtils.strlen(name);
@@ -87,7 +103,9 @@ contract PolygonDomains is ERC721URIStorage {
             )
         );
 
-        string memory finalTokenUri = string( abi.encodePacked("data:application/json;base64,", json));
+        string memory finalTokenUri = string(
+            abi.encodePacked("data:application/json;base64,", json)
+        );
 
         console.log("Final tokenURI", finalTokenUri);
 
