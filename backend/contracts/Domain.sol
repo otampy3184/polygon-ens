@@ -25,13 +25,16 @@ contract PolygonDomains is ERC721URIStorage {
     // stringとStringを紐づけるMapping
     mapping(string => string) public records;
 
+    address payable public owner;
+
     // 支払い機能追加のため、ContractをPayableで作る
     constructor(string memory _tld)
         payable
-        ERC721("PolygonNameService", "PNS")
+        ERC721("Ninja Name Service", "NNS")
     {
+        owner = payable(msg.sender);
         tld = _tld;
-        console.log("Construct Success");
+        console.log("%s name service deployed", _tld);
     }
 
     modifier onlyOwner() {
