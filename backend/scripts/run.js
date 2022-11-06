@@ -8,6 +8,9 @@ const main = async () => {
   
     let txn = await domainContract.register("a16z",  {value: hre.ethers.utils.parseEther('1234')});
     await txn.wait();
+
+    let txn2 = await domainContract.register("pompom,", {value: hre.ethers.utils.parseEther('1234')});
+    await txn2.wait();
   
     const balance = await hre.ethers.provider.getBalance(domainContract.address);
     console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
@@ -30,6 +33,10 @@ const main = async () => {
   
     console.log("Contract balance after withdrawal:", hre.ethers.utils.formatEther(contractBalance));
     console.log("Balance of owner after withdrawal:", hre.ethers.utils.formatEther(ownerBalance));
+
+    const allNames = await domainContract.getAllNames();
+
+    console.log(allNames);
   }
   
   const runMain = async () => {
