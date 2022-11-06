@@ -24,13 +24,15 @@ contract PolygonDomains is ERC721URIStorage {
     mapping(string => address) public domainsToAddress;
     // stringとStringを紐づけるMapping
     mapping(string => string) public records;
+    // nameごとにIDを付与するMapping
+    mapping (uint => string) public names;
 
     address payable public owner;
 
     // 支払い機能追加のため、ContractをPayableで作る
     constructor(string memory _tld)
         payable
-        ERC721("Ninja Name Service", "NNS")
+        ERC721("Polygon Name Service", "PNS")
     {
         owner = payable(msg.sender);
         tld = _tld;
@@ -119,6 +121,8 @@ contract PolygonDomains is ERC721URIStorage {
         domainsToAddress[name] = msg.sender;
         console.log("%s has regiered a domain", msg.sender);
 
+        names[newRecordId] = name;
+
         _tokenIds.increment();
     }
 
@@ -138,5 +142,16 @@ contract PolygonDomains is ERC721URIStorage {
         returns (string memory)
     {
         return records[name];
+    }
+    
+    function getAllNames() public view returns (string[] memory){
+        console.log("Getting all names from contract");
+        string[] memory allNames = new string[](_tokenIds.current());
+        for (uint i = 0; i < _tokenIds.current(); i++){
+            allNames[i] = names[i];
+            console.log("Name for token %d is %s", i, allNames[i]);
+        }
+
+        return allNames;
     }
 }
