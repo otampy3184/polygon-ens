@@ -27,6 +27,10 @@ contract PolygonDomains is ERC721URIStorage {
     // nameごとにIDを付与するMapping
     mapping (uint => string) public names;
 
+    error Unauthorized();
+    error AlreadyRegistered();
+    error InvalidName(string name);
+
     address payable public owner;
 
     // 支払い機能追加のため、ContractをPayableで作る
@@ -72,8 +76,10 @@ contract PolygonDomains is ERC721URIStorage {
 
     // msg.senderのアドレスに指定の名前のDomainで登録する
     function register(string calldata name) public payable {
-        require(valid(name), "invalid name length");
-        require(domainsToAddress[name] == address(0));
+        //require(valid(name), "invalid name length");
+        if (!valid(name)) revert InvalidName(name);
+        //require(domainsToAddress[name] == address(0));
+        if (domainsToAddress[name] != address(0)) revert AlreadyRegistered();
         uint256 _price = price(name);
 
         // 所持金が足りているか確認する
@@ -133,7 +139,8 @@ contract PolygonDomains is ERC721URIStorage {
     }
 
     function setRecord(string calldata name, string calldata record) public {
-        require(domainsToAddress[name] == msg.sender);
+        //require(domainsToAddress[name] == msg.sender);
+        if (domainsToAddress[name] != msg.sender) revert Unauthorized();
         records[name] = record;
     }
 
