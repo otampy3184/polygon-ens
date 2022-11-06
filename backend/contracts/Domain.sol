@@ -72,6 +72,7 @@ contract PolygonDomains is ERC721URIStorage {
 
     // msg.senderのアドレスに指定の名前のDomainで登録する
     function register(string calldata name) public payable {
+        require(valid(name), "invalid name length");
         require(domainsToAddress[name] == address(0));
         uint256 _price = price(name);
 
