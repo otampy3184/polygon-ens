@@ -4,10 +4,15 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import contractAbi from "./utils/PolygonDomains.json";
 
+import polygonLogo from "./assets/polygonlogo.png";
+import ethLogo from "./assets/ethlogo.png"
+import { networks } from "./utils/networks";
+
 const tld = ".plg";
 const CONTRACT_ADDRESS = "0x576Ab2Cb1b5E5DF3dcdA2A31B7C1fe30830f183b";
 
 function App() {
+  const [network, setNetwork] = useState("");
   const [currentAccount, setCurrentAccount] = useState("");
   const [domain, setDomain] = useState("");
   const [record, setRecord] = useState("");
@@ -29,6 +34,15 @@ function App() {
         setCurrentAccount(account);
       } else {
         console.log("no authorized account")
+      }
+
+      const chainId = await ethereum.requret({ method: 'eth_chainId' });
+      setNetwork(networks[chainId]);
+
+      ethereum.on('chainChainged', handleChainChanged);
+
+      function handleChainChanged(_chainId) {
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -107,6 +121,13 @@ function App() {
   );
 
   const renderInputForm = () => {
+    if (network !== 'Polygon Mumbai Testnet'){
+      return (
+        <div className="connect-wallet-container">
+          <p>Please connect to the Polygon Mumbai Testnet</p>
+        </div>
+      )
+    }
     return (
       <div className="form-container">
         <div className="first-row">
@@ -163,6 +184,10 @@ function App() {
             <div className="left">
               <p className="title">Polygon Name Service</p>
               <p className="subtitle">Your immortal API on the blockchain!</p>
+            </div>
+            <div className='right'>
+              <img alt="Network logo" className='logo' src={ network.includes("Polygon") ? polygonLogo : ethLogo} />
+              { currentAccount ? <p> Wallet: {currentAccount.slice(0, 6)}...{currentAccount.slice(-4)} </p> : <p> Not Connected</p> }
             </div>
           </header>
         </div>
