@@ -12,7 +12,8 @@ const tld = ".plg";
 const CONTRACT_ADDRESS = "0x576Ab2Cb1b5E5DF3dcdA2A31B7C1fe30830f183b";
 
 function App() {
-  const [loading, setLoading] = useStete(true);
+  const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useStete(false);
   const [network, setNetwork] = useState("");
   const [currentAccount, setCurrentAccount] = useState("");
   const [domain, setDomain] = useState("");
@@ -172,12 +173,20 @@ function App() {
           placeholder="whats ur ninja power?"
           onChange={(e) => setRecord(e.target.value)}
         />
-
-        <div className="button-container">
-          <button className="cta-button mint-button" onClick={mintDomain}>
+        {editing ? (
+          <div className="button-container">
+            <button className='cta-button mint-button' disabled={loading} onClick={updateDomain}>
+              Set record
+            </button>
+            <button className='cta-button mint-button' onClick={() => {setEditing(false)}}>
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <button className='cta-button mint-button' disabled={loading} onClick={mintDomain}>
             Mint
           </button>
-        </div>
+        )}
       </div>
     );
   };
