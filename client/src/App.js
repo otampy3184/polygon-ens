@@ -9,7 +9,7 @@ import ethLogo from "./assets/ethlogo.png"
 import { networks } from "./utils/networks";
 
 const tld = ".plg";
-const CONTRACT_ADDRESS = "0x576Ab2Cb1b5E5DF3dcdA2A31B7C1fe30830f183b";
+const CONTRACT_ADDRESS = "0xFe13c50dF8111ac2B5C953BF705eB07E3c720046";
 
 function App() {
   const [mints, setMints] = useState([]);
