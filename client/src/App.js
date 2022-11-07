@@ -12,6 +12,7 @@ const tld = ".plg";
 const CONTRACT_ADDRESS = "0x576Ab2Cb1b5E5DF3dcdA2A31B7C1fe30830f183b";
 
 function App() {
+  const [loading, setLoading] = useStete(true);
   const [network, setNetwork] = useState("");
   const [currentAccount, setCurrentAccount] = useState("");
   const [domain, setDomain] = useState("");
@@ -104,6 +105,31 @@ function App() {
       console.log(error);
     }
   };
+
+  const updateDomain = async () => {
+    if (!record || !domain) {return} 
+    setLoading(true);
+    console.log("Updating domain", domain, "with record", record);
+    try {
+      const {ethereum} = window;
+      if(ethereum){
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi.abi, signer);
+
+        let tx = await contract.setRecord(domain, record);
+        await tx.wait();
+        console.log("Record set https://mumbai.polygonscan.com/tx/"+tx.hash);
+
+        fetchMints();
+        setRecord(' ');
+        setDomain(' ');
+      }
+    } catch(error) {
+      console.log(error);
+    }
+    setLoading(false);
+  }
 
   const renderNotConnectedContainer = () => (
     <div className="connect-wallet-container">
