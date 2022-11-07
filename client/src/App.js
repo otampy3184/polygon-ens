@@ -298,6 +298,7 @@ function App() {
 
         {!currentAccount && renderNotConnectedContainer()}
         {currentAccount && renderInputForm()}
+        {mints && renderMints()}
 
         <div className="footer-container">
         </div>
